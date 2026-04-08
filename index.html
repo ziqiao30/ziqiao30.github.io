@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ziqiao Wang — Full-Stack Roboticist</title>
+  <meta name="description" content="Portfolio of Ziqiao Wang, a full-stack roboticist building intelligent machines.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #faf9f7;
+      color: #1a1a1a;
+      cursor: none;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; cursor: none; }
+    img { max-width: 100%; display: block; }
+    ul { list-style: none; }
+
+    /* ============================================
+       CUSTOM CURSOR
+       ============================================ */
+    .cursor-dot {
+      position: fixed;
+      top: 0; left: 0;
+      width: 8px; height: 8px;
+      background: #1a1a1a;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+      transition: width 0.15s, height 0.15s, background 0.15s;
+    }
+
+    .cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(26, 26, 26, 0.35);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Hover state for links / interactive */
+    .cursor-dot.hover { width: 12px; height: 12px; background: rgba(26,26,26,0.6); }
+    .cursor-ring.hover { width: 50px; height: 50px; border-color: rgba(26,26,26,0.15); }
+
+    /* Click ripple */
+    .ripple {
+      position: fixed;
+      border: 1.5px solid rgba(26,26,26,0.25);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%) scale(0);
+      animation: ripple-expand 0.8s ease-out forwards;
+    }
+
+    @keyframes ripple-expand {
+      to { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+    }
+
+    /* Cursor trail */
+    .cursor-trail {
+      position: fixed;
+      width: 4px; height: 4px;
+      background: rgba(26,26,26,0.08);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9997;
+      transform: translate(-50%, -50%);
+    }
+
+    /* ============================================
+       NAVIGATION
+       ============================================ */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      transition: background 0.4s ease, border-color 0.4s ease, padding 0.3s ease;
+      border-bottom: 1px solid transparent;
+    }
+
+    .nav.scrolled {
+      background: rgba(250, 249, 247, 0.95);
+      border-bottom-color: #e5e4e2;
+      padding: 14px 48px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .nav__email {
+      font-size: 0.8rem;
+      color: #888;
+      letter-spacing: 0.02em;
+    }
+
+    .nav__logo {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      color: #1a1a1a;
+    }
+
+    .nav__links {
+      display: flex;
+      gap: 28px;
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    .nav__links a {
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .nav__links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: #1a1a1a;
+      transition: width 0.3s ease;
+    }
+
+    .nav__links a:hover { color: #1a1a1a; }
+    .nav__links a:hover::after { width: 100%; }
+
+    /* ============================================
+       HERO SECTION
+       ============================================ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 0 24px;
+      overflow: hidden;
+    }
+
+    .hero__canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+
+    .hero__content {
+      text-align: center;
+      will-change: transform;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero__name {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .hero__name-cn {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 400;
+      color: #999;
+      letter-spacing: 0.3em;
+      margin-bottom: 12px;
+    }
+
+    .hero__subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: #777;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      margin-bottom: 48px;
+    }
+
+    .hero__ctas {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+    }
+
+    .hero__cta {
+      font-size: 0.95rem;
+      color: #555;
+      position: relative;
+      padding-bottom: 2px;
+      border-bottom: 1px solid #bbb;
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .hero__cta:hover {
+      color: #1a1a1a;
+      border-color: #1a1a1a;
+    }
+
+    /* ============================================
+       SECTION COMMON
+       ============================================ */
+    .section {
+      padding: 120px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section__label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: #999;
+      margin-bottom: 12px;
+    }
+
+    .section__title {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+
+    .section__subtitle {
+      font-size: 0.95rem;
+      color: #888;
+      margin-bottom: 56px;
+    }
+
+    /* Scroll-triggered fade in */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================
+       PROJECTS SECTION — Apple-style
+       ============================================ */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px 28px;
+    }
+
+    .project-card {
+      display: block;
+      border-radius: 16px;
+      background: #fff;
+      overflow: hidden;
+      cursor: none;
+      transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+                  box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .project-card:hover {
+      transform: scale(1.015) translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    .project-card__image {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      background: #f0efed;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #bbb;
+      font-size: 0.8rem;
+    }
+
+    .project-card__image img,
+    .project-card__image video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .project-card:hover .project-card__image img,
+    .project-card:hover .project-card__image video {
+      transform: scale(1.03);
+    }
+
+    .project-card__body {
+      padding: 20px 22px 24px;
+    }
+
+    /* Featured card */
+    .project-card--featured {
+      grid-column: 1 / -1;
+    }
+
+    .project-card--featured .project-card__image {
+      aspect-ratio: 16 / 9;
+    }
+
+    .project-card--featured .project-card__number {
+      color: #1a1a1a;
+      font-weight: 500;
+    }
+
+    /* 3x3 video mosaic for featured */
+    .video-mosaic {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      width: 100%;
+      height: 100%;
+      gap: 2px;
+      background: #f0efed;
+    }
+
+    .video-mosaic video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .project-card__number {
+      font-size: 0.68rem;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 4px;
+    }
+
+    .project-card__title {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .project-card__desc {
+      font-size: 0.82rem;
+      color: #777;
+      line-height: 1.55;
+    }
+
+    /* ============================================
+       RESUME / ABOUT SECTION
+       ============================================ */
+    .resume-header {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 56px;
+    }
+
+    .resume-photo {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: #e0dfdd;
+      flex-shrink: 0;
+    }
+
+    .resume-bio {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #444;
+      max-width: 600px;
+    }
+
+    .resume-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+
+    .resume-col__title {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin-bottom: 32px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e0dfdd;
+    }
+
+    .timeline-item {
+      margin-bottom: 28px;
+      padding-left: 20px;
+      border-left: 1.5px solid #ddd;
+    }
+
+    .timeline-item__date {
+      font-size: 0.75rem;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+
+    .timeline-item__title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .timeline-item__sub {
+      font-size: 0.85rem;
+      color: #777;
+    }
+
+    .timeline-item__detail {
+      font-size: 0.8rem;
+      color: #999;
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    .timeline-item__detail strong {
+      color: #555;
+      font-weight: 500;
+    }
+
+    /* ============================================
+       CONTACT SECTION
+       ============================================ */
+    .contact {
+      text-align: center;
+      padding-bottom: 80px;
+    }
+
+    .contact__links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .contact__link {
+      font-size: 0.95rem;
+      color: #555;
+      border-bottom: 1px solid transparent;
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .contact__link:hover {
+      color: #1a1a1a;
+      border-bottom-color: #1a1a1a;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 0.75rem;
+      color: #bbb;
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================
+       MOBILE RESPONSIVE
+       ============================================ */
+    @media (max-width: 768px) {
+      /* Disable custom cursor on touch devices */
+      body { cursor: auto; }
+      .cursor-dot, .cursor-ring, .cursor-trail { display: none; }
+
+      .nav {
+        padding: 14px 20px;
+      }
+      .nav.scrolled {
+        padding: 12px 20px;
+      }
+      .nav__email { display: none; }
+      .nav__links { gap: 16px; font-size: 0.8rem; }
+
+      .section { padding: 80px 20px; }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .project-card__body { padding: 16px 18px 20px; }
+
+      .video-mosaic { gap: 1px; }
+
+      .resume-header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .resume-columns {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .hero__ctas { gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom cursor elements -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <nav class="nav" id="nav">
+    <a href="mailto:ziqiao.wang@epfl.ch" class="nav__email">ziqiao.wang@epfl.ch</a>
+    <a href="#hero" class="nav__logo">Ziqiao Wang</a>
+    <div class="nav__links">
+      <a href="#projects">Projects</a>
+      <a href="#resume">Resume</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="hero">
+    <canvas class="hero__canvas" id="heroCanvas"></canvas>
+    <div class="hero__content" id="heroContent">
+      <h1 class="hero__name">Ziqiao Wang</h1>
+      <p class="hero__name-cn">王子乔</p>
+      <p class="hero__subtitle">PhD Candidate in Robotics, EPFL</p>
+      <div class="hero__ctas">
+        <a href="#projects" class="hero__cta">Projects ↓</a>
+        <a href="#resume" class="hero__cta">Resume ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROJECTS ===================== -->
+  <section class="section" id="projects">
+    <div class="fade-in">
+      <p class="section__label">01 — Work</p>
+      <h2 class="section__title">Projects</h2>
+      <p class="section__subtitle">Click any project to see more</p>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- Project 00 — Featured Research -->
+      <a href="project-00.html" class="project-card project-card--featured fade-in" id="project-00">
+        <div class="project-card__image" id="featuredMosaic">
+          <div class="video-mosaic">
+            <video src="media/surface_media1.mp4" muted loop playsinline preload="metadata"></video>
+            <video src="media/surface_media18.mp4" muted loop playsinline preload="metadata"></video>
+            <video src="media/surface_media10.mp4" muted loop playsinline preload="metadata"></video>
+            <video src="media/surface_media9.mp4" muted loop playsinline preload="metadata"></video>
+            <video src="media/surface_media16.mp4" muted loop playsinline preload="metadata"></video>
+            <video src="media/surface_media4.mp4" muted loop playsinline preload="metadata"></video>
+            <video src="media/surface_media6.mp4" muted loop playsinline preload="metadata"></video>
+            <video src="media/surface_media15.mp4" muted loop playsinline preload="metadata"></video>
+            <video src="media/surface_media19.mp4" muted loop playsinline preload="metadata"></video>
+          </div>
+        </div>
+        <div class="project-card__body">
+          <p class="project-card__number">Featured Research</p>
+          <h3 class="project-card__title">Surface-Based Manipulation with Modular Foldable Robots</h3>
+          <p class="project-card__desc">Using flat surfaces as minimalist end-effectors to translate, rotate, and flip objects via closed-loop control. Published in npj Robotics, 2026.</p>
+        </div>
+      </a>
+
+      <!-- Project 01 -->
+      <a href="project-01.html" class="project-card fade-in" id="project-01">
+        <div class="project-card__image">
+          <video src="media/test1_preview.mp4#t=1" muted loop playsinline preload="metadata" aria-label="Real 12-ton walking excavator controlled by reinforcement learning"></video>
+        </div>
+        <div class="project-card__body">
+          <p class="project-card__number">01</p>
+          <h3 class="project-card__title">Controlling the Legs of a 12t Walking Excavator Using Reinforcement Learning</h3>
+          <p class="project-card__desc">A reinforcement learning locomotion controller for a 12-ton walking excavator. Trained on mixed terrain in simulation with PPO, validated on real hardware.</p>
+        </div>
+      </a>
+
+      <!-- Project 10 — Master Thesis -->
+      <a href="project-10.html" class="project-card fade-in" id="project-10">
+        <div class="project-card__image">
+          <img src="media/landing_demo.gif" alt="RL-trained drone landing on a flexible tree branch in simulation" loading="lazy">
+        </div>
+        <div class="project-card__body">
+          <p class="project-card__number">Master Thesis</p>
+          <h3 class="project-card__title">Learning to Land on Flexible Structures</h3>
+          <p class="project-card__desc">RL-trained drone that lands on and maintains contact with flexible tree branches. PPO/SAC with domain randomization.</p>
+        </div>
+      </a>
+
+      <!-- Project 02 -->
+      <a href="project-02.html" class="project-card fade-in" id="project-02">
+        <div class="project-card__image">
+          <img src="media/%E5%9B%BE%E7%89%87%201%20(1).png" alt="BMS system architecture with electric vehicle, embedded system, and mobile app" loading="lazy">
+        </div>
+        <div class="project-card__body">
+          <p class="project-card__number">02</p>
+          <h3 class="project-card__title">Neural Network Based Battery Management System for Electric Vehicles</h3>
+          <p class="project-card__desc">A BMS based on LSTM neural networks to predict battery SOC from real-time voltage, current, and temperature.</p>
+        </div>
+      </a>
+
+      <!-- Project 03 -->
+      <a href="project-03.html" class="project-card fade-in" id="project-03">
+        <div class="project-card__image">
+          <img src="media/%E5%9B%BE%E7%89%87%205.png" alt="Competition arena with Robot A, Robot B collaborating at the 17th ABU Robocon" loading="lazy">
+        </div>
+        <div class="project-card__body">
+          <p class="project-card__number">03</p>
+          <h3 class="project-card__title">A Multi-Agent Robot System (ABU Robocon, 2nd Prize)</h3>
+          <p class="project-card__desc">Multi-sensor fusion positioning and motion planning for two collaborative robots. National 2nd prize.</p>
+        </div>
+      </a>
+
+      <!-- Project 04 -->
+      <a href="project-04.html" class="project-card fade-in" id="project-04">
+        <div class="project-card__image">
+          <img src="media/%E5%9B%BE%E7%89%87%207.png" alt="Frisbee-throwing robot with camera and launch mechanisms" loading="lazy">
+        </div>
+        <div class="project-card__body">
+          <p class="project-card__number">04</p>
+          <h3 class="project-card__title">The Frisbee Robot with Machine Vision (ABU Robocon, 3rd + Best Technical)</h3>
+          <p class="project-card__desc">A frisbee-throwing robot with vision-based targeting. Six design iterations, 3rd place and best technical award.</p>
+        </div>
+      </a>
+
+      <!-- Project 05 -->
+      <a href="project-05.html" class="project-card fade-in" id="project-05">
+        <div class="project-card__image">
+          <img src="media/MPC.jpg" alt="Block diagram of cascaded MPC controllers for asynchronous motor" loading="lazy">
+        </div>
+        <div class="project-card__body">
+          <p class="project-card__number">05</p>
+          <h3 class="project-card__title">Model Predictive Control for Asynchronous Motor Velocity Control</h3>
+          <p class="project-card__desc">Bachelor thesis: cascaded MPC controllers with a sensorless speed observer for asynchronous motors.</p>
+        </div>
+      </a>
+
+      <!-- Project 06 -->
+      <a href="project-06.html" class="project-card fade-in" id="project-06">
+        <div class="project-card__image">
+          <img src="media/%E5%9B%BE%E7%89%87%204.png" alt="Custom-built quadrotor with labeled sensors and controller" loading="lazy">
+        </div>
+        <div class="project-card__body">
+          <p class="project-card__number">06</p>
+          <h3 class="project-card__title">A Quadrotor Aircraft for Object Tracking</h3>
+          <p class="project-card__desc">Built from scratch — hardware to control algorithms — achieving object tracking via computer vision. National 1st prize.</p>
+        </div>
+      </a>
+
+      <!-- Project 07 -->
+      <a href="project-07.html" class="project-card fade-in" id="project-07">
+        <div class="project-card__image">
+          <img src="media/%E5%9B%BE%E7%89%87%2011.png" alt="Laboratory setup of cesium atom concentration sensor" loading="lazy">
+        </div>
+        <div class="project-card__body">
+          <p class="project-card__number">07</p>
+          <h3 class="project-card__title">Multi-channel Cesium Atom Concentration Sensor System</h3>
+          <p class="project-card__desc">Hardware for real-time radiation detection for autonomous mobile robots.</p>
+        </div>
+      </a>
+
+      <!-- Project 08 -->
+      <a href="project-08.html" class="project-card fade-in" id="project-08">
+        <div class="project-card__image">
+          <img src="media/%E5%9B%BE%E7%89%87%209.png" alt="Circular PCB for paper detection sensor" loading="lazy">
+        </div>
+        <div class="project-card__body">
+          <p class="project-card__number">08</p>
+          <h3 class="project-card__title">Paper Quantity Detection via Capacitance Variation (National 1st Prize)</h3>
+          <p class="project-card__desc">LC parallel resonance sensor measuring up to 80 sheets. National 1st prize.</p>
+        </div>
+      </a>
+
+      <!-- Project 09 -->
+      <a href="project-09.html" class="project-card fade-in" id="project-09">
+        <div class="project-card__image">
+          <img src="media/%E5%9B%BE%E7%89%87%2010.png" alt="Gesture recognition device with hand display" loading="lazy">
+        </div>
+        <div class="project-card__body">
+          <p class="project-card__number">09</p>
+          <h3 class="project-card__title">Gesture Recognition Device</h3>
+          <p class="project-card__desc">Detects simple hand gestures when the user places their hand over the test area.</p>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ===================== RESUME / ABOUT ===================== -->
+  <section class="section" id="resume">
+    <div class="fade-in">
+      <p class="section__label">02 — About</p>
+      <h2 class="section__title">Resume</h2>
+    </div>
+
+    <div class="resume-header fade-in">
+      <div class="resume-photo" role="img" aria-label="Photo of Ziqiao Wang"></div>
+      <p class="resume-bio">
+        I'm a full-stack roboticist. I've been a science fiction fanatic since middle school and always dreamed of making robots and launching them into space. I want to make products that enter thousands of families and make an impact on people's lives.
+      </p>
+    </div>
+
+    <div class="resume-columns fade-in">
+      <!-- Education -->
+      <div>
+        <h3 class="resume-col__title">Education</h3>
+
+        <div class="timeline-item">
+          <p class="timeline-item__date">Sep 2022 — Present</p>
+          <p class="timeline-item__title">PhD Candidate</p>
+          <p class="timeline-item__sub">EPFL, Reconfigurable Robotics Lab — Lausanne, Switzerland</p>
+          <p class="timeline-item__detail">Advisor: <strong>Prof. Jamie Paik</strong></p>
+        </div>
+
+        <div class="timeline-item">
+          <p class="timeline-item__date">Aug 2020 — Aug 2022</p>
+          <p class="timeline-item__title">M.Sc. in Embedded Systems, Control Track</p>
+          <p class="timeline-item__sub">KTH Royal Institute of Technology — Stockholm, Sweden</p>
+          <p class="timeline-item__detail">Examiner: <strong>Prof. Dimos Dimarogonas</strong></p>
+        </div>
+
+        <div class="timeline-item">
+          <p class="timeline-item__date">Sep 2021 — Aug 2022</p>
+          <p class="timeline-item__title">Exchange — Environmental Robotics Lab (ERL)</p>
+          <p class="timeline-item__sub">ETH Zurich — Zurich, Switzerland</p>
+          <p class="timeline-item__detail">Master Thesis: Learning to Land on Flexible Structures<br>Supervisor: Dr. Emanuele Aucone, <strong>Prof. Stefano Mintchev</strong></p>
+        </div>
+
+        <div class="timeline-item">
+          <p class="timeline-item__date">Sep 2021 — Feb 2022</p>
+          <p class="timeline-item__title">Exchange — Robotics Systems Lab (RSL)</p>
+          <p class="timeline-item__sub">ETH Zurich — Zurich, Switzerland</p>
+          <p class="timeline-item__detail">Semester Project: Controlling a 12t Walking Excavator Using RL<br>Supervisor: Dr. Pascal Egli, Dr. Julian Nubert, <strong>Prof. Marco Hutter</strong></p>
+        </div>
+
+        <div class="timeline-item">
+          <p class="timeline-item__date">Sep 2016 — Jul 2020</p>
+          <p class="timeline-item__title">B.Eng. in Electrical Engineering &amp; Automation</p>
+          <p class="timeline-item__sub">Xi'an Jiaotong University — Xi'an, China</p>
+        </div>
+
+        <div class="timeline-item">
+          <p class="timeline-item__date">Jul 2018 — Aug 2018</p>
+          <p class="timeline-item__title">Summer Exchange — Robotics for Future Industrial Applications</p>
+          <p class="timeline-item__sub">RWTH Aachen University — Aachen, Germany</p>
+        </div>
+      </div>
+
+      <!-- Awards & Patents -->
+      <div>
+        <h3 class="resume-col__title">Awards &amp; Patents</h3>
+
+        <div class="timeline-item">
+          <p class="timeline-item__date">Aug 2019</p>
+          <p class="timeline-item__title">National 1st Prize</p>
+          <p class="timeline-item__sub">2019 National Undergraduate Electronics Design Contest</p>
+        </div>
+
+        <div class="timeline-item">
+          <p class="timeline-item__date">Apr 2019</p>
+          <p class="timeline-item__title">Special Prize, Shaanxi Province</p>
+          <p class="timeline-item__sub">"Challenge Cup" National College Student Academic Science &amp; Technology Competition</p>
+        </div>
+
+        <div class="timeline-item">
+          <p class="timeline-item__date">Jun 2018</p>
+          <p class="timeline-item__title">National 2nd Prize</p>
+          <p class="timeline-item__sub">17th ABU Asia-Pacific Robot Contest in China</p>
+        </div>
+
+        <div class="timeline-item">
+          <p class="timeline-item__date">Jul 2017</p>
+          <p class="timeline-item__title">3rd Place + Best Technical Award</p>
+          <p class="timeline-item__sub">16th ABU Asia-Pacific Robot Contest in China</p>
+        </div>
+
+        <div class="timeline-item">
+          <p class="timeline-item__date">2019</p>
+          <p class="timeline-item__title">2 Patents (1st Inventor) + 1 Software Monograph</p>
+          <p class="timeline-item__sub">BMS invention patent (ZL201910261973.3) · Quadrotor software (2019SR0860797)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section class="section contact" id="contact">
+    <div class="fade-in">
+      <p class="section__label">03 — Connect</p>
+      <h2 class="section__title">Get in touch</h2>
+      <div class="contact__links">
+        <a href="mailto:ziqiao.wang@epfl.ch" class="contact__link">ziqiao.wang@epfl.ch</a>
+        <a href="https://github.com/ziqiao30" target="_blank" rel="noopener" class="contact__link">github.com/ziqiao30</a>
+        <a href="https://www.linkedin.com/in/ziqiao-wang-61b9a1242/" target="_blank" rel="noopener" class="contact__link">linkedin.com/in/ziqiao-wang</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <p>&copy; 2026 Ziqiao Wang. All rights reserved.</p>
+  </footer>
+
+  <!-- ============================================
+       JAVASCRIPT
+       ============================================ -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ---------- CUSTOM CURSOR ---------- */
+      const dot = document.getElementById('cursorDot');
+      const ring = document.getElementById('cursorRing');
+      let mouseX = -100, mouseY = -100;
+      let ringX = -100, ringY = -100;
+      const trailPositions = [];
+      const TRAIL_LENGTH = 8;
+      const trailElements = [];
+
+      // Create trail elements
+      for (let i = 0; i < TRAIL_LENGTH; i++) {
+        const el = document.createElement('div');
+        el.className = 'cursor-trail';
+        el.style.opacity = (1 - i / TRAIL_LENGTH) * 0.5;
+        document.body.appendChild(el);
+        trailElements.push(el);
+        trailPositions.push({ x: -100, y: -100 });
+      }
+
+      // Track mouse position
+      document.addEventListener('mousemove', function (e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      // Hover state on interactive elements
+      const interactiveSelector = 'a, button, .project-card, [role="button"]';
+      document.addEventListener('mouseover', function (e) {
+        if (e.target.closest(interactiveSelector)) {
+          dot.classList.add('hover');
+          ring.classList.add('hover');
+        }
+      });
+      document.addEventListener('mouseout', function (e) {
+        if (e.target.closest(interactiveSelector)) {
+          dot.classList.remove('hover');
+          ring.classList.remove('hover');
+        }
+      });
+
+      // Click ripple
+      document.addEventListener('click', function (e) {
+        const ripple = document.createElement('div');
+        ripple.className = 'ripple';
+        ripple.style.left = e.clientX + 'px';
+        ripple.style.top = e.clientY + 'px';
+        ripple.style.width = '120px';
+        ripple.style.height = '120px';
+        document.body.appendChild(ripple);
+        ripple.addEventListener('animationend', function () {
+          ripple.remove();
+        });
+      });
+
+      // Animate cursor
+      function animateCursor() {
+        // Dot follows exactly
+        dot.style.left = mouseX + 'px';
+        dot.style.top = mouseY + 'px';
+
+        // Ring lags behind
+        ringX += (mouseX - ringX) * 0.15;
+        ringY += (mouseY - ringY) * 0.15;
+        ring.style.left = ringX + 'px';
+        ring.style.top = ringY + 'px';
+
+        // Trail
+        trailPositions.unshift({ x: mouseX, y: mouseY });
+        trailPositions.length = TRAIL_LENGTH;
+        for (let i = 0; i < TRAIL_LENGTH; i++) {
+          const p = trailPositions[i];
+          if (p) {
+            trailElements[i].style.left = p.x + 'px';
+            trailElements[i].style.top = p.y + 'px';
+          }
+        }
+
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+
+      /* ---------- INTERACTIVE SURFACE CANVAS ---------- */
+      var canvas = document.getElementById('heroCanvas');
+      var ctx = canvas.getContext('2d');
+      var heroContent = document.getElementById('heroContent');
+      var hero = document.querySelector('.hero');
+      var heroMouseX = -9999, heroMouseY = -9999;
+      var tiles = [];
+      var ripples = [];
+
+      // Tile grid config
+      var TILE_SIZE = 64;
+      var GAP = 8;
+      var STEP = TILE_SIZE + GAP;
+      var PERSPECTIVE = 0.35; // Isometric skew factor
+      var INFLUENCE_RADIUS = 220;
+
+      function resizeCanvas() {
+        canvas.width = hero.offsetWidth;
+        canvas.height = hero.offsetHeight;
+        buildGrid();
+      }
+
+      function buildGrid() {
+        tiles = [];
+        var cols = Math.ceil(canvas.width / STEP) + 2;
+        var rows = Math.ceil(canvas.height / STEP) + 2;
+        var offsetX = (canvas.width - cols * STEP) / 2;
+        var offsetY = (canvas.height - rows * STEP) / 2;
+        for (var r = 0; r < rows; r++) {
+          for (var c = 0; c < cols; c++) {
+            tiles.push({
+              cx: offsetX + c * STEP + TILE_SIZE / 2,
+              cy: offsetY + r * STEP + TILE_SIZE / 2,
+              tiltX: 0, tiltY: 0, lift: 0,
+              targetTiltX: 0, targetTiltY: 0, targetLift: 0
+            });
+          }
+        }
+      }
+
+      hero.addEventListener('mousemove', function (e) {
+        var rect = hero.getBoundingClientRect();
+        heroMouseX = e.clientX - rect.left;
+        heroMouseY = e.clientY - rect.top;
+        // Parallax on text
+        var cx = heroMouseX / rect.width - 0.5;
+        var cy = heroMouseY / rect.height - 0.5;
+        heroContent.style.transform = 'translate(' + (cx * 10) + 'px,' + (cy * 10) + 'px)';
+      });
+
+      hero.addEventListener('mouseleave', function () {
+        heroMouseX = -9999; heroMouseY = -9999;
+        heroContent.style.transform = 'translate(0,0)';
+        heroContent.style.transition = 'transform 0.5s ease';
+        setTimeout(function () { heroContent.style.transition = ''; }, 500);
+      });
+
+      // Click creates a surface ripple
+      hero.addEventListener('click', function (e) {
+        var rect = hero.getBoundingClientRect();
+        ripples.push({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top,
+          radius: 0,
+          maxRadius: 350,
+          strength: 1
+        });
+      });
+
+      function drawTile(t) {
+        var half = TILE_SIZE / 2;
+        var tX = t.tiltX;
+        var tY = t.tiltY;
+        var lift = t.lift;
+
+        // 3D-ish parallelogram corners based on tilt
+        var shiftX = tX * PERSPECTIVE * half;
+        var shiftY = tY * PERSPECTIVE * half;
+
+        // Four corners with perspective distortion
+        var x0 = t.cx - half + shiftX - shiftY * 0.15;
+        var y0 = t.cy - half + shiftY - lift;
+        var x1 = t.cx + half + shiftX + shiftY * 0.15;
+        var y1 = t.cy - half - shiftY * 0.3 - lift;
+        var x2 = t.cx + half - shiftX + shiftY * 0.15;
+        var y2 = t.cy + half - shiftY - lift;
+        var x3 = t.cx - half - shiftX - shiftY * 0.15;
+        var y3 = t.cy + half + shiftY * 0.3 - lift;
+
+        // Shadow
+        if (lift > 0.5) {
+          ctx.fillStyle = 'rgba(0,0,0,' + (lift * 0.012) + ')';
+          ctx.beginPath();
+          ctx.moveTo(x0 + lift * 0.3, y0 + lift * 0.6);
+          ctx.lineTo(x1 + lift * 0.3, y1 + lift * 0.6);
+          ctx.lineTo(x2 + lift * 0.3, y2 + lift * 0.6);
+          ctx.lineTo(x3 + lift * 0.3, y3 + lift * 0.6);
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        // Tile face — slight tint based on tilt for depth
+        var brightness = Math.min(255, 248 + lift * 0.5);
+        ctx.fillStyle = 'rgb(' + brightness + ',' + (brightness - 1) + ',' + (brightness - 3) + ')';
+        ctx.beginPath();
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineTo(x3, y3);
+        ctx.closePath();
+        ctx.fill();
+
+        // Stroke
+        var strokeAlpha = 0.12 + lift * 0.015;
+        ctx.strokeStyle = 'rgba(26,26,26,' + Math.min(strokeAlpha, 0.5) + ')';
+        ctx.lineWidth = 0.7;
+        ctx.stroke();
+      }
+
+      function animateSurface() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Update ripples
+        for (var r = ripples.length - 1; r >= 0; r--) {
+          ripples[r].radius += 4;
+          ripples[r].strength *= 0.97;
+          if (ripples[r].radius > ripples[r].maxRadius) ripples.splice(r, 1);
+        }
+
+        // Update and draw tiles
+        for (var i = 0; i < tiles.length; i++) {
+          var t = tiles[i];
+          var dx = heroMouseX - t.cx;
+          var dy = heroMouseY - t.cy;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+
+          // Mouse influence
+          if (dist < INFLUENCE_RADIUS) {
+            var factor = 1 - dist / INFLUENCE_RADIUS;
+            factor = factor * factor; // ease
+            t.targetTiltX = (dx / INFLUENCE_RADIUS) * factor * 1.2;
+            t.targetTiltY = (dy / INFLUENCE_RADIUS) * factor * 1.2;
+            t.targetLift = factor * 18;
+          } else {
+            t.targetTiltX = 0;
+            t.targetTiltY = 0;
+            t.targetLift = 0;
+          }
+
+          // Ripple influence
+          for (var r = 0; r < ripples.length; r++) {
+            var rp = ripples[r];
+            var rdx = t.cx - rp.x;
+            var rdy = t.cy - rp.y;
+            var rdist = Math.sqrt(rdx * rdx + rdy * rdy);
+            var ringDist = Math.abs(rdist - rp.radius);
+            if (ringDist < 60) {
+              var wave = (1 - ringDist / 60) * rp.strength;
+              t.targetLift += wave * 12;
+              t.targetTiltX += (rdx / (rdist || 1)) * wave * 0.4;
+              t.targetTiltY += (rdy / (rdist || 1)) * wave * 0.4;
+            }
+          }
+
+          // Smooth interpolation
+          t.tiltX += (t.targetTiltX - t.tiltX) * 0.12;
+          t.tiltY += (t.targetTiltY - t.tiltY) * 0.12;
+          t.lift += (t.targetLift - t.lift) * 0.12;
+
+          drawTile(t);
+        }
+
+        requestAnimationFrame(animateSurface);
+      }
+
+      resizeCanvas();
+      animateSurface();
+      window.addEventListener('resize', resizeCanvas);
+
+      /* ---------- NAV SCROLL ---------- */
+      var nav = document.getElementById('nav');
+      var scrollThreshold = 60;
+
+      window.addEventListener('scroll', function () {
+        if (window.scrollY > scrollThreshold) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+      }, { passive: true });
+
+      /* ---------- VIDEO HOVER PLAY (regular cards) ---------- */
+      document.querySelectorAll('.project-card:not(.project-card--featured) video').forEach(function (video) {
+        var card = video.closest('.project-card');
+        var startTime = parseFloat(video.src.split('#t=')[1]) || 0;
+        card.addEventListener('mouseenter', function () { video.play(); });
+        card.addEventListener('mouseleave', function () { video.pause(); video.currentTime = startTime; });
+      });
+
+      /* ---------- FEATURED 3x3 VIDEO MOSAIC ---------- */
+      (function () {
+        var mosaic = document.getElementById('featuredMosaic');
+        if (!mosaic) return;
+        var videos = mosaic.querySelectorAll('video');
+        var playing = false;
+
+        function playAll() {
+          videos.forEach(function (v) { v.play(); });
+          playing = true;
+        }
+        function pauseAll() {
+          videos.forEach(function (v) { v.pause(); });
+          playing = false;
+        }
+
+        var card = mosaic.closest('.project-card');
+        card.addEventListener('mouseenter', playAll);
+        card.addEventListener('mouseleave', pauseAll);
+
+        // Auto-play when scrolled into view
+        var obs = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) playAll();
+          else pauseAll();
+        }, { threshold: 0.2 });
+        obs.observe(mosaic);
+      })();
+
+      /* ---------- SCROLL FADE-IN ---------- */
+      var fadeEls = document.querySelectorAll('.fade-in');
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      fadeEls.forEach(function (el) {
+        observer.observe(el);
+      });
+
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning to Land on Flexible Structures | Ziqiao Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: #faf9f7; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; background: rgba(250,249,247,0.95); border-bottom: 1px solid #e5e4e2; backdrop-filter: blur(10px); }
+    .nav__back { font-size: 0.85rem; color: #888; transition: color 0.3s; }
+    .nav__back:hover { color: #1a1a1a; }
+    .nav__logo { font-family: Georgia, serif; font-size: 1.1rem; letter-spacing: 0.15em; }
+    .project-hero { padding: 160px 48px 80px; max-width: 900px; margin: 0 auto; }
+    .project-hero__number { font-size: 0.72rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 12px; }
+    .project-hero__title { font-family: Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; line-height: 1.3; margin-bottom: 20px; }
+    .project-hero__desc { font-size: 1.05rem; color: #555; line-height: 1.8; max-width: 700px; }
+    .project-hero__pub { margin-top: 20px; font-size: 0.88rem; color: #888; line-height: 1.6; }
+    .project-content { max-width: 900px; margin: 0 auto; padding: 0 48px 80px; }
+    .media-section { margin-bottom: 56px; }
+    .media-section__title { font-family: Georgia, serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid #e5e4e2; }
+    .media-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    .media-grid--two { grid-template-columns: repeat(2, 1fr); }
+    .media-item { border-radius: 6px; overflow: hidden; background: #e8e7e5; }
+    .media-item img, .media-item video { width: 100%; display: block; }
+    .media-item__caption { padding: 10px 14px; font-size: 0.8rem; color: #888; background: #f5f4f2; }
+    .details-section { margin-bottom: 56px; }
+    .details-section__title { font-family: Georgia, serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid #e5e4e2; }
+    .details-list { padding-left: 20px; }
+    .details-list li { font-size: 0.95rem; color: #444; line-height: 1.7; margin-bottom: 8px; }
+    .back-link { display: inline-block; margin-top: 40px; font-size: 0.9rem; color: #888; border-bottom: 1px solid #ccc; padding-bottom: 2px; transition: color 0.3s, border-color 0.3s; }
+    .back-link:hover { color: #1a1a1a; border-color: #1a1a1a; }
+    .footer { text-align: center; padding: 40px 24px; font-size: 0.75rem; color: #bbb; }
+    @media (max-width: 768px) {
+      .nav { padding: 14px 20px; }
+      .project-hero { padding: 120px 20px 60px; }
+      .project-content { padding: 0 20px 60px; }
+      .media-grid--two { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html#projects" class="nav__back">&larr; All Projects</a>
+    <a href="index.html" class="nav__logo">Ziqiao Wang</a>
+  </nav>
+
+  <section class="project-hero">
+    <p class="project-hero__number">Master Thesis</p>
+    <h1 class="project-hero__title">Learning to Land on Flexible Structures</h1>
+    <p class="project-hero__desc">
+      Using reinforcement learning to train a drone to land on and maintain contact with flexible tree branches. The policy learns to handle varying branch stiffness through domain randomization, outputting thrust and attitude commands via a neural network controller.
+    </p>
+    <p class="project-hero__pub">
+      Supervisors: Dr. Emanuele Aucone, <strong>Prof. Stefano Mintchev</strong> (ETH Zurich, ERL)<br>
+      Examiner: <strong>Prof. Dimos Dimarogonas</strong> (KTH)
+    </p>
+  </section>
+
+  <div class="project-content">
+
+    <!-- Simulation Demo -->
+    <div class="media-section">
+      <h2 class="media-section__title">Simulation Demo</h2>
+      <div class="media-grid">
+        <div class="media-item">
+          <img src="media/landing_demo.gif" alt="Drone landing on a flexible tree branch in simulation, maintaining contact" loading="lazy">
+          <div class="media-item__caption">RL-trained drone landing on a flexible tree branch and maintaining stable contact (K=100)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Setup -->
+    <div class="media-section">
+      <h2 class="media-section__title">Problem Setup</h2>
+      <div class="media-grid media-grid--two">
+        <div class="media-item">
+          <img src="media/landing_setup.png" alt="Simulation setup: drone above a 1.5m flexible branch at 2m height" loading="lazy">
+          <div class="media-item__caption">Simulation environment — drone positioned above a 1.5m flexible branch, randomized initial position and branch stiffness</div>
+        </div>
+        <div class="media-item">
+          <img src="media/landing_branch_sim.gif" alt="Flexible branch bending under different stiffness parameters" loading="lazy">
+          <div class="media-item__caption">Branch modeled with PD-controlled joints — stiffness varied across training episodes</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="details-section">
+      <ul class="details-list">
+        <li>Goal: land a drone on flexible tree branches and maintain stable contact — for environmental monitoring and sample collection</li>
+        <li>Challenge: the branch deforms upon contact, requiring the drone to adapt its thrust and attitude in real time</li>
+        <li>Domain randomization: branch stiffness, initial drone position, and branch orientation randomized during training</li>
+      </ul>
+    </div>
+
+    <!-- Method -->
+    <div class="media-section">
+      <h2 class="media-section__title">Method</h2>
+      <div class="media-grid" style="max-width: 600px; margin: 0 auto;">
+        <div class="media-item">
+          <img src="media/landing_pipeline.png" alt="RL training pipeline: SAC/PPO with simulation environment, reward function, and attitude controller" loading="lazy">
+          <div class="media-item__caption">Training pipeline — PPO/SAC agent outputs thrust and reference attitude, low-level PD controller tracks commands at 48Hz</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="media-section">
+      <div class="media-grid" style="max-width: 700px; margin: 0 auto;">
+        <div class="media-item">
+          <img src="media/landing_network.png" alt="Policy network: 4-layer MLP with 256-256-256-128 tanh nodes, inputs are position, quaternion, velocity, force" loading="lazy">
+          <div class="media-item__caption">Policy network — 4-layer MLP [256, 256, 256, 128] with tanh activation. Inputs: position, attitude, velocity, external force. Outputs: thrust + reference attitude</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Training -->
+    <div class="media-section">
+      <h2 class="media-section__title">Training</h2>
+      <div class="media-grid" style="max-width: 560px; margin: 0 auto;">
+        <div class="media-item">
+          <img src="media/landing_training.png" alt="Training curves: PPO converges in 14h, SAC converges faster in 6h" loading="lazy">
+          <div class="media-item__caption">Training curves — SAC converges in ~6h (reward ~0.85), PPO in ~14h. Both using Stable-Baselines3</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Evaluation -->
+    <div class="media-section">
+      <h2 class="media-section__title">Evaluation — Different Branch Stiffness</h2>
+      <div class="media-grid media-grid--two">
+        <div class="media-item">
+          <img src="media/landing_k1.gif" alt="Drone landing on very soft branch (K=1)" loading="lazy">
+          <div class="media-item__caption">K = 1 — very soft branch</div>
+        </div>
+        <div class="media-item">
+          <img src="media/landing_k10.gif" alt="Drone landing on soft branch (K=10)" loading="lazy">
+          <div class="media-item__caption">K = 10 — soft branch</div>
+        </div>
+        <div class="media-item">
+          <img src="media/landing_k100.gif" alt="Drone landing on medium stiffness branch (K=100)" loading="lazy">
+          <div class="media-item__caption">K = 100 — medium stiffness</div>
+        </div>
+        <div class="media-item">
+          <img src="media/landing_k1000.gif" alt="Drone landing on stiff branch (K=1000)" loading="lazy">
+          <div class="media-item__caption">K = 1000 — stiff branch</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="media-section">
+      <div class="media-grid" style="max-width: 500px; margin: 0 auto;">
+        <div class="media-item">
+          <img src="media/landing_success_rate.jpg" alt="Success rate heatmap showing high success across different initial positions" loading="lazy">
+          <div class="media-item__caption">Success rate across initial positions (PPO, K=1) — dot position = initial XY, color = success rate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contributions -->
+    <div class="details-section">
+      <h2 class="details-section__title">Contributions</h2>
+      <ul class="details-list">
+        <li>Built an RL framework for training aerial physical interaction with flexible structures</li>
+        <li>Demonstrated that RL can control a drone to land on and maintain contact with deformable tree branches</li>
+        <li>Compared PPO and SAC — SAC converges faster and achieves higher reward</li>
+        <li>Evaluated across four branch stiffness levels (K = 1, 10, 100, 1000) with 100 randomized trials each</li>
+        <li>Defined quantitative metrics: success rate, stability, contact force, and z-displacement</li>
+      </ul>
+    </div>
+
+    <a href="index.html#projects" class="back-link">&larr; Back to all projects</a>
+  </div>
+
+  <footer class="footer"><p>&copy; 2026 Ziqiao Wang</p></footer>
+</body>
+</html>

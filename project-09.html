@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>09 — Gesture Recognition | Ziqiao Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: #faf9f7; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; background: rgba(250,249,247,0.95); border-bottom: 1px solid #e5e4e2; backdrop-filter: blur(10px); }
+    .nav__back { font-size: 0.85rem; color: #888; transition: color 0.3s; }
+    .nav__back:hover { color: #1a1a1a; }
+    .nav__logo { font-family: Georgia, serif; font-size: 1.1rem; letter-spacing: 0.15em; }
+    .project-hero { padding: 160px 48px 80px; max-width: 900px; margin: 0 auto; }
+    .project-hero__number { font-size: 0.72rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 12px; }
+    .project-hero__title { font-family: Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; line-height: 1.3; margin-bottom: 20px; }
+    .project-hero__desc { font-size: 1.05rem; color: #555; line-height: 1.8; max-width: 700px; }
+    .project-content { max-width: 900px; margin: 0 auto; padding: 0 48px 80px; }
+    .media-section { margin-bottom: 56px; }
+    .media-section__title { font-family: Georgia, serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid #e5e4e2; }
+    .media-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    .media-item { border-radius: 6px; overflow: hidden; background: #e8e7e5; }
+    .media-item img { width: 100%; display: block; }
+    .media-item__caption { padding: 10px 14px; font-size: 0.8rem; color: #888; background: #f5f4f2; }
+    .details-section { margin-bottom: 56px; }
+    .details-section__title { font-family: Georgia, serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid #e5e4e2; }
+    .details-list { padding-left: 20px; }
+    .details-list li { font-size: 0.95rem; color: #444; line-height: 1.7; margin-bottom: 8px; }
+    .back-link { display: inline-block; margin-top: 40px; font-size: 0.9rem; color: #888; border-bottom: 1px solid #ccc; padding-bottom: 2px; transition: color 0.3s, border-color 0.3s; }
+    .back-link:hover { color: #1a1a1a; border-color: #1a1a1a; }
+    .footer { text-align: center; padding: 40px 24px; font-size: 0.75rem; color: #bbb; }
+    @media (max-width: 768px) {
+      .nav { padding: 14px 20px; }
+      .project-hero { padding: 120px 20px 60px; }
+      .project-content { padding: 0 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html#projects" class="nav__back">&larr; All Projects</a>
+    <a href="index.html" class="nav__logo">Ziqiao Wang</a>
+  </nav>
+
+  <section class="project-hero">
+    <p class="project-hero__number">Project 09</p>
+    <h1 class="project-hero__title">Gesture Recognition Device</h1>
+    <p class="project-hero__desc">
+      Designed a gesture recognition device that detects simple hand gestures when the user places their hand over the test area.
+    </p>
+  </section>
+
+  <div class="project-content">
+    <div class="media-section">
+      <h2 class="media-section__title">The Device</h2>
+      <div class="media-grid">
+        <div class="media-item">
+          <img src="media/%E5%9B%BE%E7%89%87%2010.png" alt="Gesture recognition device with hand display, keypad, and sensor hardware" loading="lazy">
+          <div class="media-item__caption">Gesture recognition device — sensor area, display, and control interface</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="details-section">
+      <h2 class="details-section__title">Technical Details</h2>
+      <ul class="details-list">
+        <li>Designed hardware and software for detecting simple hand gestures</li>
+        <li>User places their hand over the test area for real-time gesture recognition</li>
+        <li>Integrated display for visual feedback of detected gestures</li>
+      </ul>
+    </div>
+
+    <a href="index.html#projects" class="back-link">&larr; Back to all projects</a>
+  </div>
+
+  <footer class="footer"><p>&copy; 2026 Ziqiao Wang</p></footer>
+</body>
+</html>

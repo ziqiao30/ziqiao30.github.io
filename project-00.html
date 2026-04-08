@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surface-Based Manipulation | Ziqiao Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: #faf9f7; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; background: rgba(250,249,247,0.95); border-bottom: 1px solid #e5e4e2; backdrop-filter: blur(10px); }
+    .nav__back { font-size: 0.85rem; color: #888; transition: color 0.3s; }
+    .nav__back:hover { color: #1a1a1a; }
+    .nav__logo { font-family: Georgia, serif; font-size: 1.1rem; letter-spacing: 0.15em; }
+
+    .project-hero { padding: 160px 48px 80px; max-width: 900px; margin: 0 auto; }
+    .project-hero__number { font-size: 0.72rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 12px; }
+    .project-hero__title { font-family: Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; line-height: 1.3; margin-bottom: 20px; }
+    .project-hero__desc { font-size: 1.05rem; color: #555; line-height: 1.8; max-width: 700px; }
+    .project-hero__pub { margin-top: 20px; font-size: 0.88rem; color: #888; line-height: 1.6; }
+    .project-hero__pub a { border-bottom: 1px solid #ccc; transition: color 0.3s, border-color 0.3s; }
+    .project-hero__pub a:hover { color: #1a1a1a; border-color: #1a1a1a; }
+
+    .project-content { max-width: 900px; margin: 0 auto; padding: 0 48px 80px; }
+    .media-section { margin-bottom: 56px; }
+    .media-section__title { font-family: Georgia, serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid #e5e4e2; }
+    .media-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    .media-grid--two { grid-template-columns: repeat(2, 1fr); }
+    .media-item { border-radius: 6px; overflow: hidden; background: #e8e7e5; }
+    .media-item img, .media-item video { width: 100%; display: block; }
+    .media-item__caption { padding: 10px 14px; font-size: 0.8rem; color: #888; background: #f5f4f2; }
+
+    .details-section { margin-bottom: 56px; }
+    .details-section__title { font-family: Georgia, serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid #e5e4e2; }
+    .details-list { padding-left: 20px; }
+    .details-list li { font-size: 0.95rem; color: #444; line-height: 1.7; margin-bottom: 8px; }
+    .award-badge { display: inline-block; margin-top: 16px; padding: 8px 16px; background: #f0efed; border-radius: 4px; font-size: 0.85rem; color: #666; font-style: italic; }
+
+    .back-link { display: inline-block; margin-top: 40px; font-size: 0.9rem; color: #888; border-bottom: 1px solid #ccc; padding-bottom: 2px; transition: color 0.3s, border-color 0.3s; }
+    .back-link:hover { color: #1a1a1a; border-color: #1a1a1a; }
+    .footer { text-align: center; padding: 40px 24px; font-size: 0.75rem; color: #bbb; }
+
+    @media (max-width: 768px) {
+      .nav { padding: 14px 20px; }
+      .project-hero { padding: 120px 20px 60px; }
+      .project-content { padding: 0 20px 60px; }
+      .media-grid--two { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html#projects" class="nav__back">&larr; All Projects</a>
+    <a href="index.html" class="nav__logo">Ziqiao Wang</a>
+  </nav>
+
+  <section class="project-hero">
+    <p class="project-hero__number">Featured Research</p>
+    <h1 class="project-hero__title">Surface-Based Manipulation with Modular Foldable Robots</h1>
+    <p class="project-hero__desc">
+      Intelligence lies not only in the brain but in the body. We present surface-based manipulation strategies that diverge from classical grasping approaches, using flat surfaces as minimalist end-effectors. By adjusting surfaces' position and orientation, objects can be translated, rotated, and flipped using closed-loop control — adapting to objects of various shapes, sizes, and stiffness levels.
+    </p>
+    <p class="project-hero__pub">
+      Ziqiao Wang*, Serhat Demirtas*, Fabio Zuliani, Jamie Paik<br>
+      <em>npj Robotics</em>, vol. 4, no. 1, 2026 &mdash;
+      <a href="https://www.nature.com/articles/s44182-025-00069-6" target="_blank" rel="noopener">Read paper on Nature</a>
+    </p>
+  </section>
+
+  <div class="project-content">
+
+    <!-- Concept -->
+    <div class="media-section">
+      <h2 class="media-section__title">Concept: Surface vs. Grasping</h2>
+      <div class="media-grid">
+        <div class="media-item">
+          <img src="media/surface_fig1.jpg" alt="Figure 1: Surface-based manipulation concept — grasping vs surface-based strategies, translation, flipping, rotation, and food packaging application" loading="lazy">
+          <div class="media-item__caption">Surface-based manipulation: (a) Grasping vs. surface-based intuition, (b-d) Translation, flipping, and rotation strategies, (e) Food packaging application concept</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rigid Object Manipulation -->
+    <div class="media-section">
+      <h2 class="media-section__title">Rigid Object Manipulation</h2>
+      <div class="media-grid media-grid--two">
+        <div class="media-item">
+          <video controls playsinline preload="metadata" muted src="media/surface_rigid_translate_flip.mp4"></video>
+          <div class="media-item__caption">Translation + 180&deg; flipping of a rigid block — coordinated motion of two surface modules</div>
+        </div>
+        <div class="media-item">
+          <video controls playsinline preload="metadata" muted src="media/surface_rigid_rotation.mp4"></video>
+          <div class="media-item__caption">Rotation to multiple target angles (20&deg;, 30&deg;, 60&deg;, 80&deg;) via coordinated roll and height adjustment</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Soft Object Manipulation -->
+    <div class="media-section">
+      <h2 class="media-section__title">Soft Object Manipulation</h2>
+      <div class="media-grid media-grid--two">
+        <div class="media-item">
+          <video controls playsinline preload="metadata" muted src="media/surface_soft_translation.mp4"></video>
+          <div class="media-item__caption">Closed-loop translation of a soft, randomly shaped Play-Doh object from multiple initial positions to a target</div>
+        </div>
+        <div class="media-item">
+          <video controls playsinline preload="metadata" muted src="media/surface_soft_shape.mp4"></video>
+          <div class="media-item__caption">Shape manipulation — fold-translate-refold sequence transforms a soft strip into a rolled configuration</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Heterogeneous Objects -->
+    <div class="media-section">
+      <h2 class="media-section__title">Heterogeneous Object Manipulation</h2>
+      <div class="media-grid media-grid--two">
+        <div class="media-item">
+          <video controls playsinline preload="metadata" muted src="media/surface_fish.mp4"></video>
+          <div class="media-item__caption">A slippery fish — surface-based support from below, no grasping needed</div>
+        </div>
+        <div class="media-item">
+          <video controls playsinline preload="metadata" muted src="media/surface_live_demo.mp4"></video>
+          <div class="media-item__caption">Live conference demonstration — manipulating dough on the surface platform</div>
+        </div>
+      </div>
+      <div class="media-grid" style="margin-top: 24px;">
+        <div class="media-item">
+          <img src="media/surface_fig3_objects.jpg" alt="Surface-based manipulation of rigid objects, soft deformable objects, and heterogeneous objects including cookies, plush toys, tape rolls, and food packages" loading="lazy">
+          <div class="media-item__caption">Full overview — (a) Rigid: solid block. (b) Soft: deformable slime, particle-filled slime. (c) Heterogeneous: cookies, plush toys, cake packages, tape rolls, popcorn</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Robot Design -->
+    <div class="media-section">
+      <h2 class="media-section__title">Robot Design</h2>
+      <div class="media-grid media-grid--two">
+        <div class="media-item">
+          <img src="media/surface_robot_render.png" alt="3D rendering of the surface-based manipulator showing top surface, origami legs, BLDC motors, connectors, and base platform" loading="lazy">
+          <div class="media-item__caption">3-DOF surface module — acrylic top surface on origami-inspired legs with BLDC motor actuation</div>
+        </div>
+        <div class="media-item">
+          <img src="media/surface_manufacturing.png" alt="Manufacturing process: design, laser cut, heat press, final cut, assembly; layered structure of glass fiber, adhesive, and polyimide" loading="lazy">
+          <div class="media-item__caption">Manufacturing process — FR4 and polyimide layered origami legs, laser cut and heat pressed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Control & Validation -->
+    <div class="media-section">
+      <h2 class="media-section__title">Control &amp; Validation</h2>
+      <div class="media-grid media-grid--two">
+        <div class="media-item">
+          <img src="media/surface_fig2_control.jpg" alt="Control architecture: high-level controller with vision system, task planner for translation/rotation/flipping, and motor controller" loading="lazy">
+          <div class="media-item__caption">Control architecture — vision-based closed-loop control with task planner for translation, rotation, and flipping</div>
+        </div>
+        <div class="media-item">
+          <img src="media/surface_fig5_validation.jpg" alt="Experimental validation of translation and flipping with position/yaw tracking, and rotation to multiple target angles" loading="lazy">
+          <div class="media-item__caption">Experimental validation — translation + 180&deg; flipping, and rotation to 20&deg;/30&deg;/60&deg;/80&deg; targets</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Technical Details -->
+    <div class="details-section">
+      <h2 class="details-section__title">Key Contributions</h2>
+      <ul class="details-list">
+        <li>Introduced surface-based manipulation as an alternative to grasping — using flat surfaces as minimalist end-effectors</li>
+        <li>Three manipulation primitives: translation (via coordinated pitch/roll/height), flipping (dynamic 180&deg; reorientation), and rotation (Z-axis reorientation)</li>
+        <li>Modular foldable robot platform with origami-inspired legs, 3-DOF per module</li>
+        <li>Closed-loop vision-based control enabling reliable manipulation of rigid, soft, deformable, and heterogeneous objects</li>
+        <li>Shape manipulation of free-form objects through multi-step fold-translate-refold sequences</li>
+        <li>Demonstrated on diverse objects: blocks, slime, cookies, plush toys, cake packages, tape rolls, popcorn bags</li>
+      </ul>
+      <p class="award-badge">Published in npj Robotics, 2026 &middot; EPFL Reconfigurable Robotics Lab</p>
+    </div>
+
+    <a href="index.html#projects" class="back-link">&larr; Back to all projects</a>
+  </div>
+
+  <footer class="footer"><p>&copy; 2026 Ziqiao Wang</p></footer>
+</body>
+</html>

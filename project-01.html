@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>01 — Walking Excavator RL | Ziqiao Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #faf9f7; color: #1a1a1a;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* Nav */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(250,249,247,0.95); border-bottom: 1px solid #e5e4e2;
+      backdrop-filter: blur(10px);
+    }
+    .nav__back { font-size: 0.85rem; color: #888; transition: color 0.3s; }
+    .nav__back:hover { color: #1a1a1a; }
+    .nav__logo { font-family: Georgia, serif; font-size: 1.1rem; letter-spacing: 0.15em; }
+
+    /* Hero */
+    .project-hero {
+      padding: 160px 48px 80px; max-width: 900px; margin: 0 auto;
+    }
+    .project-hero__number {
+      font-size: 0.72rem; color: #aaa; text-transform: uppercase;
+      letter-spacing: 0.15em; margin-bottom: 12px;
+    }
+    .project-hero__title {
+      font-family: Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 400; line-height: 1.3; margin-bottom: 20px;
+    }
+    .project-hero__desc {
+      font-size: 1.05rem; color: #555; line-height: 1.8; max-width: 700px;
+    }
+
+    /* Content */
+    .project-content {
+      max-width: 900px; margin: 0 auto; padding: 0 48px 80px;
+    }
+
+    /* Media gallery */
+    .media-section { margin-bottom: 56px; }
+    .media-section__title {
+      font-family: Georgia, serif; font-size: 1.2rem; font-weight: 400;
+      margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid #e5e4e2;
+    }
+    .media-grid {
+      display: grid; grid-template-columns: 1fr; gap: 24px;
+    }
+    .media-grid--two { grid-template-columns: repeat(2, 1fr); }
+    .media-item {
+      border-radius: 6px; overflow: hidden; background: #e8e7e5;
+    }
+    .media-item img, .media-item video {
+      width: 100%; display: block;
+    }
+    .media-item__caption {
+      padding: 10px 14px; font-size: 0.8rem; color: #888; background: #f5f4f2;
+    }
+
+    /* Details */
+    .details-section { margin-bottom: 56px; }
+    .details-section__title {
+      font-family: Georgia, serif; font-size: 1.2rem; font-weight: 400;
+      margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid #e5e4e2;
+    }
+    .details-list { padding-left: 20px; }
+    .details-list li {
+      font-size: 0.95rem; color: #444; line-height: 1.7; margin-bottom: 8px;
+    }
+
+    /* Back link */
+    .back-link {
+      display: inline-block; margin-top: 40px; font-size: 0.9rem;
+      color: #888; border-bottom: 1px solid #ccc; padding-bottom: 2px;
+      transition: color 0.3s, border-color 0.3s;
+    }
+    .back-link:hover { color: #1a1a1a; border-color: #1a1a1a; }
+
+    .footer {
+      text-align: center; padding: 40px 24px; font-size: 0.75rem;
+      color: #bbb; letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 768px) {
+      .nav { padding: 14px 20px; }
+      .project-hero { padding: 120px 20px 60px; }
+      .project-content { padding: 0 20px 60px; }
+      .media-grid--two { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html#projects" class="nav__back">&larr; All Projects</a>
+    <a href="index.html" class="nav__logo">Ziqiao Wang</a>
+  </nav>
+
+  <section class="project-hero">
+    <p class="project-hero__number">Project 01</p>
+    <h1 class="project-hero__title">Controlling the Legs of a 12t Walking Excavator Using Reinforcement Learning</h1>
+    <p class="project-hero__desc">
+      A reinforcement learning controller for a 12-ton Menzi Muck walking excavator. Mixed terrain of slopes and hills constructed in RaiSim simulation, with robustness increased via domain randomization and random initialization. PPO algorithm used for training, validated on real hardware.
+    </p>
+    <p class="project-hero__pub" style="margin-top:20px; font-size:0.88rem; color:#888; line-height:1.6;">
+      Semester Project at ETH Zurich, Robotics Systems Lab (RSL)<br>
+      Supervisors: Dr. Pascal Egli, Dr. Julian Nubert, <strong style="color:#555;">Prof. Marco Hutter</strong>
+    </p>
+  </section>
+
+  <div class="project-content">
+
+    <!-- Training -->
+    <div class="media-section">
+      <h2 class="media-section__title">Training</h2>
+      <div class="media-grid" style="max-width: 560px; margin: 0 auto;">
+        <div class="media-item">
+          <img src="media/Policy%20training%20(2).png" alt="PPO training pipeline with controller network, PID controller, and RaiSim environment" loading="lazy">
+          <div class="media-item__caption">PPO training pipeline in RaiSim — controller network with PID, trained on parametrized terrain</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="details-section">
+      <ul class="details-list">
+        <li>Trained a PPO-based RL controller in the RaiSim physics simulator for a 12-ton Menzi Muck walking excavator</li>
+        <li>Constructed parametrized terrain with varying slopes, hills, and surface roughness</li>
+        <li>Increased robustness via domain randomization and random state initialization</li>
+      </ul>
+    </div>
+
+    <!-- Simulation -->
+    <div class="media-section">
+      <h2 class="media-section__title">Simulation</h2>
+      <div class="media-grid media-grid--two">
+        <div class="media-item">
+          <video src="media/sim_flat.mp4" autoplay muted loop playsinline></video>
+          <div class="media-item__caption">Flat terrain locomotion</div>
+        </div>
+        <div class="media-item">
+          <video src="media/sim_hills.mp4" autoplay muted loop playsinline></video>
+          <div class="media-item__caption">Rolling hills</div>
+        </div>
+        <div class="media-item">
+          <video src="media/sim_slope.mp4" autoplay muted loop playsinline></video>
+          <div class="media-item__caption">Steep slope traversal</div>
+        </div>
+        <div class="media-item">
+          <video src="media/sim_rough.mp4" autoplay muted loop playsinline></video>
+          <div class="media-item__caption">Rough rocky terrain</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Real-World Validation -->
+    <div class="media-section">
+      <h2 class="media-section__title">Real-World Validation</h2>
+      <div class="media-grid">
+        <div class="media-item">
+          <video controls playsinline preload="metadata" src="media/test1_v2.mp4">
+            Your browser does not support the video tag.
+          </video>
+          <div class="media-item__caption">Sim-to-real transfer — the real 12-ton Menzi Muck walks autonomously on gravel using the RL-trained controller</div>
+        </div>
+      </div>
+    </div>
+
+    <a href="index.html#projects" class="back-link">&larr; Back to all projects</a>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2026 Ziqiao Wang</p>
+  </footer>
+</body>
+</html>
