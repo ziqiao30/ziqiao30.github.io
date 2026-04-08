@@ -374,6 +374,54 @@
       line-height: 1.55;
     }
 
+    /* Compact horizontal card for secondary projects */
+    .project-card--compact {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    .project-card--compact .project-card__image {
+      width: 140px;
+      min-width: 140px;
+      aspect-ratio: auto;
+      border-radius: 0;
+    }
+
+    .project-card--compact .project-card__body {
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .project-card--compact .project-card__title {
+      font-size: 0.92rem;
+      margin-bottom: 4px;
+    }
+
+    .project-card--compact .project-card__desc {
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+
+    .project-card--compact:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    .project-card--compact:hover .project-card__image img {
+      transform: scale(1.05);
+    }
+
+    /* Secondary projects grid: single column list */
+    .projects-secondary {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
     /* ============================================
        RESUME / ABOUT SECTION
        ============================================ */
@@ -515,6 +563,12 @@
 
       .video-mosaic { gap: 1px; }
 
+      .projects-secondary { grid-template-columns: 1fr; }
+
+      .project-card--compact .project-card__image {
+        width: 110px; min-width: 110px;
+      }
+
       .resume-header {
         flex-direction: column;
         text-align: center;
@@ -616,101 +670,90 @@
         </div>
       </a>
 
-      <!-- Project 02 -->
-      <a href="project-02.html" class="project-card fade-in" id="project-02">
-        <div class="project-card__image">
-          <img src="media/%E5%9B%BE%E7%89%87%201%20(1).png" alt="BMS system architecture with electric vehicle, embedded system, and mobile app" loading="lazy">
-        </div>
-        <div class="project-card__body">
-          <p class="project-card__number">02</p>
-          <h3 class="project-card__title">Neural Network Based Battery Management System for Electric Vehicles</h3>
-          <p class="project-card__desc">A BMS based on LSTM neural networks to predict battery SOC from real-time voltage, current, and temperature.</p>
-        </div>
-      </a>
+      <!-- Secondary projects — compact horizontal layout -->
+      <div class="projects-secondary fade-in">
 
-      <!-- Project 03 -->
-      <a href="project-03.html" class="project-card fade-in" id="project-03">
-        <div class="project-card__image">
-          <img src="media/%E5%9B%BE%E7%89%87%205.png" alt="Competition arena with Robot A, Robot B collaborating at the 17th ABU Robocon" loading="lazy">
-        </div>
-        <div class="project-card__body">
-          <p class="project-card__number">03</p>
-          <h3 class="project-card__title">A Multi-Agent Robot System (ABU Robocon, 2nd Prize)</h3>
-          <p class="project-card__desc">Multi-sensor fusion positioning and motion planning for two collaborative robots. National 2nd prize.</p>
-        </div>
-      </a>
+        <a href="project-02.html" class="project-card project-card--compact" id="project-02">
+          <div class="project-card__image">
+            <img src="media/%E5%9B%BE%E7%89%87%201%20(1).png" alt="BMS system architecture" loading="lazy">
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title">Neural Network BMS for Electric Vehicles</h3>
+            <p class="project-card__desc">LSTM-based SOC prediction. Challenge Cup Special Prize.</p>
+          </div>
+        </a>
 
-      <!-- Project 04 -->
-      <a href="project-04.html" class="project-card fade-in" id="project-04">
-        <div class="project-card__image">
-          <img src="media/%E5%9B%BE%E7%89%87%207.png" alt="Frisbee-throwing robot with camera and launch mechanisms" loading="lazy">
-        </div>
-        <div class="project-card__body">
-          <p class="project-card__number">04</p>
-          <h3 class="project-card__title">The Frisbee Robot with Machine Vision (ABU Robocon, 3rd + Best Technical)</h3>
-          <p class="project-card__desc">A frisbee-throwing robot with vision-based targeting. Six design iterations, 3rd place and best technical award.</p>
-        </div>
-      </a>
+        <a href="project-03.html" class="project-card project-card--compact" id="project-03">
+          <div class="project-card__image">
+            <img src="media/%E5%9B%BE%E7%89%87%205.png" alt="Robocon competition arena" loading="lazy">
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title">Multi-Agent Robot System (Robocon, 2nd Prize)</h3>
+            <p class="project-card__desc">Multi-sensor fusion and motion planning for collaborative robots.</p>
+          </div>
+        </a>
 
-      <!-- Project 05 -->
-      <a href="project-05.html" class="project-card fade-in" id="project-05">
-        <div class="project-card__image">
-          <img src="media/MPC.jpg" alt="Block diagram of cascaded MPC controllers for asynchronous motor" loading="lazy">
-        </div>
-        <div class="project-card__body">
-          <p class="project-card__number">05</p>
-          <h3 class="project-card__title">Model Predictive Control for Asynchronous Motor Velocity Control</h3>
-          <p class="project-card__desc">Bachelor thesis: cascaded MPC controllers with a sensorless speed observer for asynchronous motors.</p>
-        </div>
-      </a>
+        <a href="project-04.html" class="project-card project-card--compact" id="project-04">
+          <div class="project-card__image">
+            <img src="media/%E5%9B%BE%E7%89%87%207.png" alt="Frisbee-throwing robot" loading="lazy">
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title">Frisbee Robot with Machine Vision (Robocon, 3rd + Best Technical)</h3>
+            <p class="project-card__desc">Vision-based targeting, six design iterations.</p>
+          </div>
+        </a>
 
-      <!-- Project 06 -->
-      <a href="project-06.html" class="project-card fade-in" id="project-06">
-        <div class="project-card__image">
-          <img src="media/%E5%9B%BE%E7%89%87%204.png" alt="Custom-built quadrotor with labeled sensors and controller" loading="lazy">
-        </div>
-        <div class="project-card__body">
-          <p class="project-card__number">06</p>
-          <h3 class="project-card__title">A Quadrotor Aircraft for Object Tracking</h3>
-          <p class="project-card__desc">Built from scratch — hardware to control algorithms — achieving object tracking via computer vision. National 1st prize.</p>
-        </div>
-      </a>
+        <a href="project-05.html" class="project-card project-card--compact" id="project-05">
+          <div class="project-card__image">
+            <img src="media/MPC.jpg" alt="MPC controller block diagram" loading="lazy">
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title">MPC for Asynchronous Motor Control</h3>
+            <p class="project-card__desc">Bachelor thesis: cascaded MPC with sensorless speed observer.</p>
+          </div>
+        </a>
 
-      <!-- Project 07 -->
-      <a href="project-07.html" class="project-card fade-in" id="project-07">
-        <div class="project-card__image">
-          <img src="media/%E5%9B%BE%E7%89%87%208.png" alt="Cesium atom concentration sensor module" loading="lazy">
-        </div>
-        <div class="project-card__body">
-          <p class="project-card__number">07</p>
-          <h3 class="project-card__title">Multi-channel Cesium Atom Concentration Sensor System</h3>
-          <p class="project-card__desc">Hardware for real-time radiation detection for autonomous mobile robots.</p>
-        </div>
-      </a>
+        <a href="project-06.html" class="project-card project-card--compact" id="project-06">
+          <div class="project-card__image">
+            <img src="media/%E5%9B%BE%E7%89%87%204.png" alt="Custom quadrotor" loading="lazy">
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title">Quadrotor for Object Tracking (National 1st Prize)</h3>
+            <p class="project-card__desc">Built from scratch with computer vision. National 1st prize.</p>
+          </div>
+        </a>
 
-      <!-- Project 08 -->
-      <a href="project-08.html" class="project-card fade-in" id="project-08">
-        <div class="project-card__image">
-          <img src="media/%E5%9B%BE%E7%89%87%2011.png" loading="lazy">
-        </div>
-        <div class="project-card__body">
-          <p class="project-card__number">08</p>
-          <h3 class="project-card__title">Paper Quantity Detection via Capacitance Variation (National 1st Prize)</h3>
-          <p class="project-card__desc">LC parallel resonance sensor measuring up to 80 sheets. National 1st prize.</p>
-        </div>
-      </a>
+        <a href="project-07.html" class="project-card project-card--compact" id="project-07">
+          <div class="project-card__image">
+            <img src="media/%E5%9B%BE%E7%89%87%208.png" alt="Cesium atom sensor" loading="lazy">
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title">Cesium Atom Concentration Sensor</h3>
+            <p class="project-card__desc">Multi-channel radiation detection for mobile robots.</p>
+          </div>
+        </a>
 
-      <!-- Project 09 -->
-      <a href="project-09.html" class="project-card fade-in" id="project-09">
-        <div class="project-card__image">
-          <img src="media/%E5%9B%BE%E7%89%87%2010.png" alt="Gesture recognition device with hand display" loading="lazy">
-        </div>
-        <div class="project-card__body">
-          <p class="project-card__number">09</p>
-          <h3 class="project-card__title">Gesture Recognition Device</h3>
-          <p class="project-card__desc">Detects simple hand gestures when the user places their hand over the test area.</p>
-        </div>
-      </a>
+        <a href="project-08.html" class="project-card project-card--compact" id="project-08">
+          <div class="project-card__image">
+            <img src="media/%E5%9B%BE%E7%89%87%2011.png" alt="Paper detection hardware" loading="lazy">
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title">Paper Quantity Detection (National 1st Prize)</h3>
+            <p class="project-card__desc">LC resonance capacitance sensor, up to 80 sheets.</p>
+          </div>
+        </a>
+
+        <a href="project-09.html" class="project-card project-card--compact" id="project-09">
+          <div class="project-card__image">
+            <img src="media/%E5%9B%BE%E7%89%87%2010.png" alt="Gesture recognition device" loading="lazy">
+          </div>
+          <div class="project-card__body">
+            <h3 class="project-card__title">Gesture Recognition Device</h3>
+            <p class="project-card__desc">Hand gesture detection over a test area.</p>
+          </div>
+        </a>
+
+      </div>
 
     </div>
   </section>
